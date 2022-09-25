@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Project1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="departmen_title" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="department_leader_id" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="employee_id" />
+    </Key>
+    <Property Name="employee_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="passport_id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="position_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="department_id" Type="varchar" MaxLength="20" />
+    <Property Name="start_work" Type="date" />
+    <Property Name="end_work" Type="date" />
+  </EntityType>
+  <EntityType Name="Pasport_data">
+    <Key>
+      <PropertyRef Name="passport_id" />
+    </Key>
+    <Property Name="passport_id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="surnane" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="birtdate" Type="date" />
+    <Property Name="plase" Type="varchar" MaxLength="20" />
+    <Property Name="adress" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="position_id" />
+    </Key>
+    <Property Name="position_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="department_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="position_title" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="payment_per_hour" Type="money" />
+    <Property Name="vacation_value" Type="int" />
+  </EntityType>
+  <EntityType Name="Salary_issuance">
+    <Key>
+      <PropertyRef Name="salary_id" />
+    </Key>
+    <Property Name="salary_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="salary_day" Type="date" />
+    <Property Name="salary_net" Type="money" />
+    <Property Name="planed_salary_day" Type="date" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Vacation">
+    <Key>
+      <PropertyRef Name="vacation_id" />
+    </Key>
+    <Property Name="vacation_id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="employee_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="vacation_start" Type="date" />
+    <Property Name="vacation_end" Type="date" />
+    <Property Name="vacation_payment" Type="money" />
+  </EntityType>
+  <EntityType Name="WorkingHours">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="employee_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="hour_count" Type="int" />
+    <Property Name="overtime_hours_count" Type="int" />
+    <Property Name="day_off_hours_count" Type="int" />
+    <Property Name="salary_date" Type="date" />
+    <Property Name="salary" Type="money" />
+  </EntityType>
+  <Association Name="FK_Employee_Departments">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Pasport_data">
+    <End Role="Pasport_data" Type="Self.Pasport_data" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pasport_data">
+        <PropertyRef Name="passport_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="passport_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Position">
+    <End Role="Position" Type="Self.Position" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="position_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Position_Departments">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+    <End Role="Position" Type="Self.Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Position">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Salary_issuance_WorkingHours">
+    <End Role="WorkingHours" Type="Self.WorkingHours" Multiplicity="1" />
+    <End Role="Salary_issuance" Type="Self.Salary_issuance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkingHours">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Salary_issuance">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Vacation_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Vacation" Type="Self.Vacation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="Vacation">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkingHours_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="WorkingHours" Type="Self.WorkingHours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="WorkingHours">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="SalaryCalc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="year" Type="varchar" Mode="In" />
+    <Parameter Name="mounth" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SalaryNetCalc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="VacationCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="employee_id" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="Project1ModelStoreContainer">
+    <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pasport_data" EntityType="Self.Pasport_data" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Salary_issuance" EntityType="Self.Salary_issuance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vacation" EntityType="Self.Vacation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorkingHours" EntityType="Self.WorkingHours" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Employee_Departments" Association="Self.FK_Employee_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Pasport_data" Association="Self.FK_Employee_Pasport_data">
+      <End Role="Pasport_data" EntitySet="Pasport_data" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
+      <End Role="Position" EntitySet="Position" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Position_Departments" Association="Self.FK_Position_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Position" EntitySet="Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Salary_issuance_WorkingHours" Association="Self.FK_Salary_issuance_WorkingHours">
+      <End Role="WorkingHours" EntitySet="WorkingHours" />
+      <End Role="Salary_issuance" EntitySet="Salary_issuance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Vacation_Employee" Association="Self.FK_Vacation_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Vacation" EntitySet="Vacation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkingHours_Employee" Association="Self.FK_WorkingHours_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="WorkingHours" EntitySet="WorkingHours" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,15 @@
+D:\навчання\Company\Company\bin\Debug\Company.exe.config
+D:\навчання\Company\Company\bin\Debug\Company.exe
+D:\навчання\Company\Company\bin\Debug\Company.pdb
+D:\навчання\Company\Company\bin\Debug\EntityFramework.dll
+D:\навчання\Company\Company\bin\Debug\EntityFramework.SqlServer.dll
+D:\навчання\Company\Company\bin\Debug\EntityFramework.xml
+D:\навчання\Company\Company\bin\Debug\EntityFramework.SqlServer.xml
+D:\навчання\Company\Company\obj\Debug\Company.csprojAssemblyReference.cache
+D:\навчання\Company\Company\obj\Debug\Company.Properties.Resources.resources
+D:\навчання\Company\Company\obj\Debug\Company.csproj.GenerateResource.cache
+D:\навчання\Company\Company\obj\Debug\Company.csproj.CoreCompileInputs.cache
+D:\навчання\Company\Company\obj\Debug\Company.csproj.CopyComplete
+D:\навчання\Company\Company\obj\Debug\Company.exe
+D:\навчання\Company\Company\obj\Debug\Company.pdb
+D:\навчання\Company\Company\obj\Debug\Company.Form1.resources

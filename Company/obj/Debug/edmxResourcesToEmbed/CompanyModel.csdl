@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Project1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="departmen_title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="department_leader_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Departments" FromRole="Departments" ToRole="Employee" />
+    <NavigationProperty Name="Positions" Relationship="Self.FK_Position_Departments" FromRole="Departments" ToRole="Position" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="employee_id" />
+    </Key>
+    <Property Name="employee_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="passport_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="position_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="department_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="start_work" Type="DateTime" Precision="0" />
+    <Property Name="end_work" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Departments" FromRole="Employee" ToRole="Departments" />
+    <NavigationProperty Name="Pasport_data" Relationship="Self.FK_Employee_Pasport_data" FromRole="Employee" ToRole="Pasport_data" />
+    <NavigationProperty Name="Position" Relationship="Self.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
+    <NavigationProperty Name="Vacations" Relationship="Self.FK_Vacation_Employee" FromRole="Employee" ToRole="Vacation" />
+    <NavigationProperty Name="WorkingHours" Relationship="Self.FK_WorkingHours_Employee" FromRole="Employee" ToRole="WorkingHours" />
+  </EntityType>
+  <EntityType Name="Pasport_data">
+    <Key>
+      <PropertyRef Name="passport_id" />
+    </Key>
+    <Property Name="passport_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="surnane" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="birtdate" Type="DateTime" Precision="0" />
+    <Property Name="plase" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="adress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Pasport_data" FromRole="Pasport_data" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="position_id" />
+    </Key>
+    <Property Name="position_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="department_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="position_title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="payment_per_hour" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="vacation_value" Type="Int32" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Position_Departments" FromRole="Position" ToRole="Departments" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Salary_issuance">
+    <Key>
+      <PropertyRef Name="salary_id" />
+    </Key>
+    <Property Name="salary_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="salary_day" Type="DateTime" Precision="0" />
+    <Property Name="salary_net" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="planed_salary_day" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="WorkingHour" Relationship="Self.FK_Salary_issuance_WorkingHours" FromRole="Salary_issuance" ToRole="WorkingHours" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Vacation">
+    <Key>
+      <PropertyRef Name="vacation_id" />
+    </Key>
+    <Property Name="vacation_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="employee_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="vacation_start" Type="DateTime" Precision="0" />
+    <Property Name="vacation_end" Type="DateTime" Precision="0" />
+    <Property Name="vacation_payment" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Vacation_Employee" FromRole="Vacation" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="WorkingHour">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="employee_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="hour_count" Type="Int32" />
+    <Property Name="overtime_hours_count" Type="Int32" />
+    <Property Name="day_off_hours_count" Type="Int32" />
+    <Property Name="salary_date" Type="DateTime" Precision="0" />
+    <Property Name="salary" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_WorkingHours_Employee" FromRole="WorkingHours" ToRole="Employee" />
+    <NavigationProperty Name="Salary_issuance" Relationship="Self.FK_Salary_issuance_WorkingHours" FromRole="WorkingHours" ToRole="Salary_issuance" />
+  </EntityType>
+  <Association Name="FK_Employee_Departments">
+    <End Role="Departments" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Position_Departments">
+    <End Role="Departments" Type="Self.Department" Multiplicity="1" />
+    <End Role="Position" Type="Self.Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Position">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Pasport_data">
+    <End Role="Pasport_data" Type="Self.Pasport_data" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pasport_data">
+        <PropertyRef Name="passport_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="passport_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Position">
+    <End Role="Position" Type="Self.Position" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="position_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Vacation_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Vacation" Type="Self.Vacation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="Vacation">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkingHours_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="WorkingHours" Type="Self.WorkingHour" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="WorkingHours">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Salary_issuance_WorkingHours">
+    <End Role="WorkingHours" Type="Self.WorkingHour" Multiplicity="1" />
+    <End Role="Salary_issuance" Type="Self.Salary_issuance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkingHours">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Salary_issuance">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Project1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departments" EntityType="Self.Department" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Pasport_data" EntityType="Self.Pasport_data" />
+    <EntitySet Name="Positions" EntityType="Self.Position" />
+    <EntitySet Name="Salary_issuance" EntityType="Self.Salary_issuance" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Vacations" EntityType="Self.Vacation" />
+    <EntitySet Name="WorkingHours" EntityType="Self.WorkingHour" />
+    <AssociationSet Name="FK_Employee_Departments" Association="Self.FK_Employee_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Position_Departments" Association="Self.FK_Position_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Position" EntitySet="Positions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Pasport_data" Association="Self.FK_Employee_Pasport_data">
+      <End Role="Pasport_data" EntitySet="Pasport_data" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
+      <End Role="Position" EntitySet="Positions" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Vacation_Employee" Association="Self.FK_Vacation_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Vacation" EntitySet="Vacations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkingHours_Employee" Association="Self.FK_WorkingHours_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="WorkingHours" EntitySet="WorkingHours" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Salary_issuance_WorkingHours" Association="Self.FK_Salary_issuance_WorkingHours">
+      <End Role="WorkingHours" EntitySet="WorkingHours" />
+      <End Role="Salary_issuance" EntitySet="Salary_issuance" />
+    </AssociationSet>
+    <FunctionImport Name="SalaryCalc">
+      <Parameter Name="year" Mode="In" Type="String" />
+      <Parameter Name="mounth" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SalaryNetCalc" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Project1Model.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Project1Model.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="VacationCount">
+      <Parameter Name="employee_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>
